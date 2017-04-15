@@ -1,0 +1,112 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+{% comment "Inventory Edit" %}
+{% for field in form.visible_fields %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+		{% if title == 'View Inventory' %}
+		{{ field|attr:'readonly=readonly'|add_class:'form-control' }}
+		{% else %}
+        {{ field|add_class:'form-control' }}
+		{% endif %}
+        {% for error in field.errors %}
+          <span class="help-block">>{{ error }}<</span>
+        {% endfor %}
+      
+{% endcomment %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+	<form action="{{action}}" method="POST" class = "form">
+		{% csrf_token %}
+		<div class="form-group">
+			{% url 'inventory_view' inventory_id as inventory_view_path %}
+			{% url 'inventory_edit' inventory_id as inventory_edit_path %}
+			{% url 'inventory_new' as inventory_new_path %}
+
+			{% if inventory_new_path == request.path %}
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-ban-circle" href="{% url 'inventory_list' %}"></a>
+				<button type="submit" class="btn btn-sm btn-primary glyphicon glyphicon-floppy-disk" ></button>
+			{% endif %}
+			
+			{% if inventory_view_path == request.path %}
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'inventory_edit' inventory_id %}"></a>
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-list-alt" href="{% url 'inventory_list' %}"></a>			
+			{% endif %}
+			
+			{% if inventory_edit_path == request.path %}
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-ban-circle" href="{% url 'inventory_view' inventory_id %}"></a>
+				<button type="submit" class="btn btn-sm btn-primary glyphicon glyphicon-floppy-disk" ></button>
+			{% endif %}
+			
+		</div>
+
+<div>
+{{form.errors}}
+</div>
+	<div class="form-group">
+		
+		{{ form.code.label}}
+		{% if title == 'View Inventory' %}
+			{{ form.code|attr:'readonly=readonly'|add_class:'form-control'}}
+		{% else %}
+			{{ form.code|add_class:'form-control'}}
+        {% endif %}
+		
+        {{ form.description.label}}
+		{% if title == 'View Inventory' %}
+			{{ form.description|attr:'readonly=readonly'|add_class:'form-control'}}
+		{% else %}
+			{{ form.description|add_class:'form-control'}}
+        {% endif %}
+		
+		{% for error in field.errors %}
+          <span class="help-block">>{{ error }}<</span>
+        {% endfor %}
+      
+	</div>
+	</form>
+	
+	{% if title == 'Edit Inventory' %}
+		
+		{% if inventory_id %}
+			<a class="btn btn-primary btn-sm glyphicon glyphicon-plus" href="{% url 'inventory_new' %}"></a>
+		{% endif %}
+        
+	{% endif %}
+        
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+				{% for price in price_list %}
+                <tr>
+                  <td>{{ price.code }}</td>
+				 {% if title == 'Edit Inventory' %}
+					<td><a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'price_edit' pk=price.id %}"></a></td>
+					<td><a class="btn btn-primary btn-sm glyphicon glyphicon-remove" href="{% url 'price_delete' pk=price.id %}"></a></td>
+				{% else %}
+					<td><a class="btn btn-primary btn-sm glyphicon glyphicon-edit disabled" href="{% url 'price_edit' pk=price.id %}"></a></td>
+					<td><a class="btn btn-primary btn-sm glyphicon glyphicon-remove disabled" href="{% url 'price_delete' pk=price.id %}"></a></td>
+				{% endif %}
+                </tr>
+				{% endfor %}
+
+              </tbody>
+	</table>
+{% endblock %}
+{% block scripts %}
+<script>
+var $j = jQuery.noConflict();
+$j(".datepicker").datepicker();
+  </script>{% endblock %}

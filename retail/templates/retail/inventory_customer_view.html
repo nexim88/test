@@ -1,0 +1,66 @@
+
+{% block pagetitle %}
+<div class="header">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>
+  <h4 class="modal-title">{{inventory.description}}
+</h4>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="content">
+<div class="form">
+<div class="form-row">
+
+<div class="photo"><img src="/media/{{ inventory.imgFile }}" width="100%" class="img-thumbnail img-wrap"></div>
+</div>
+<div>
+	{% if inventory.price__unit_price is None %}
+		<h3><span class="symbol">Price:  RM </span> -- / {{inventory.dim_unit__code}}</h3>
+	{% else %}
+		<h3><span class="symbol">Price: RM </span>{{inventory.price__unit_price}} / {{inventory.dim_unit__code}}</h3>
+	{% endif %}
+
+</div>
+<div class="description">
+	{% if inventory.review__description is None %}
+<p>-</p>
+{% else %}
+<p>{{inventory.review__description}}</p>
+
+{% endif %}
+ </div>       
+ </div>       
+</div>       
+	
+{% endblock %}
+
+
+{% block footer %}
+<div class="footer">
+
+<div class="input-group">
+	<span class="input-group-btn" >
+		<button id= "minus__{{inventory.id}}" type="button" class="btn btn-success btn-number quantity-left-minus"  data-type="minus" data-field="quant_mod[2]" onclick="updateQty(this.id, -1, false);">
+			<span class="glyphicon glyphicon-minus"></span>
+		</button>
+	</span>
+
+{% if salesDet %}
+		<input id="quantity__{{inventory.id}}"  type="text" name="quant_mod[2]" class="form-control input-number col-xs-4 text-right" value="{{ salesDet.qty|default:0 }}" min="1" max="100" onchange='doSalesModal({{sales_det.inventory_id}}, this.value, false);'>
+{% else %}
+		<input id="quantity__{{inventory.id}}"  type="text" name="quant_mod[2]" class="form-control input-number col-xs-4 text-right" value="0" min="1" max="100" onchange='doSalesModal({{sales_det.inventory_id}}, this.value, false);'>
+{% endif %}	
+	<span class="input-group-btn" >
+		<button id= "plus__{{inventory.id}}" type="button" class="btn btn-danger btn-number quantity-right-plus"  data-type="plus" data-field="quant_mod[2]"  onclick="updateQty(this.id, 1, false);">
+			<span class="glyphicon glyphicon-plus"></span>
+		</button>
+	</span>
+
+</div>
+<!-- <input class="btn btn-info" type="submit" value="Add to Cart" onclick="javascript:doSalesModal({{inventory.id}}, );"/> -->
+<button class="btn btn-info" onclick="javascript:doSalesModal({{inventory.id}}, , false);">Add to Cart</button>
+
+</div>
+{% endblock %}

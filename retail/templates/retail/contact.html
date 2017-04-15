@@ -1,0 +1,49 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+
+{% comment "Sales Edit" %}
+{{title}}
+	{% with columnCount=1 %}
+{% endwith %}	
+	{{ columnCount|add:"1"}}
+{% endcomment %}
+
+{% block title %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+	  <div class="block-footer center-main-block clearfix">
+			
+		  <article>
+			  <h2><span class="fa fa-info-circle fa-lg"></span> Our Stores</h2>
+			  <div class="footer-content">
+			  <p>Feel free to visit our stores or contact us.<br>
+<span class="fa fa-truck"></span>59, Chulia Street Ghaut <br>
+10300 George Town <br>
+Pulau Pinang, Malaysia <br>
+			
+
+<span class="fa fa-whatsapp"></span>(604) 261-6943 / 262-7485</p>
+        <p>(604) 262-7485</p>
+		
+		<h2><span class="fa fa-money fa-lg"></span> Public Bank</h2>
+		    </div>
+		  </article>
+		
+	
+	<article>
+			<h2><span class="fa fa-envelope fa-lg"></span> Contact us</h2>
+			  <div class="footer-content clearfix">
+				  <form>
+					  <input class="form-control" class="email" type="mailto" placeholder="YOUR E-MAIL...">
+					  <textarea class="form-control textform" placeholder="YOUR TEXT...">
+					  </textarea>
+					  <input class="btn btn-outline-primary" type="submit" value="Send MESSAGE">
+				  </form>
+			  </div>
+  </article>
+	</div>
+	
+	{% endblock %}

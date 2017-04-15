@@ -1,0 +1,121 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+{% comment "Sales Edit" %}
+{{ sales_edit_path }} - {{ request.path }}
+{% if form.description.value %}
+			{{ form.description }}		
+			{% endif %}
+
+			{{ form.si_no.label }}		
+			{{ form.si_no }}		
+			{{ form.sales_date.label }}		
+			{{ form.sales_date }}<br />		
+
+			{{ form.description.label }}<br />
+			{{ form.description|attr:"autofocus"|add_error_class:"error_border" }}
+
+			</div><br />
+		<div class="form-group">
+			{{ form.customer.label }}<br />
+			{{ form.customer }}		{{cust_fullname}}
+		</div>	
+<!-- concat -->
+		<span class="help-block">>{{ error|add:error }}<</span>
+
+		{% endcomment %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+	<form action="{{action}}" method="POST" class = "form">
+		{% csrf_token %}
+		<div class="form-group">
+			{% url 'sales_view' sales_id as sales_view_path %}
+			{% url 'sales_edit' sales_id as sales_edit_path %}
+			{% url 'sales_new' as sales_new_path %}
+
+			{{sales_view_path}}
+			{{sales_edit_path}}
+			{{sales_new_path}}
+			{{request.path}}
+			
+			{% if sales_new_path == request.path %}
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-ban-circle" href="{% url 'sales_list' %}"></a>
+			<button type="submit" class="btn btn-sm btn-primary glyphicon glyphicon-floppy-disk" ></button>
+			{% endif %}
+			
+			{% if sales_view_path == request.path %}
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'sales_edit' sales_id %}"></a>
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-list-alt" href="{% url 'sales_list' %}"></a>			
+			{% endif %}
+			
+			{% if sales_edit_path == request.path %}
+			<a class="btn btn-primary btn-sm glyphicon glyphicon-ban-circle" href="{% url 'sales_view' sales_id %}"></a>
+			<button type="submit" class="btn btn-sm btn-primary glyphicon glyphicon-floppy-disk" ></button>
+			{% endif %}
+		</div>
+
+<div>
+{{form.errors}}
+</div>
+	<div class="form-group">
+		
+		{% for field in form.visible_fields %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+		{% if title == 'View Sales' %}
+		{{ field|attr:'readonly=readonly'|add_class:'form-control' }}
+		{% else %}
+        {{ field|add_class:'form-control' }}
+		{% endif %}
+        {% for error in field.errors %}
+          <span class="help-block">>{{ error }}<</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+	</form>
+	
+	{% if title == 'Edit Sales' %}
+		
+	{% if sales_id %}
+		<a class="btn btn-primary btn-sm glyphicon glyphicon-plus" href="{% url 'sales_det_new' %}"></a>
+	{% endif %}
+        
+		{% endif %}
+        
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Qty</th>
+			  <th>GST Amt</th>
+			  <th>Amt</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+				{% for sales_det in sales_det_list %}
+                <tr>
+                  <td>{{ sales_det.seq }}</td>
+				  <td>{{ sales_det.qty }}</td>
+				  <td>{{ sales_det.gst_amt }}</td>
+				  <td>{{ sales_det.det_amt }}</td>
+				  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'sales_det_edit' pk=sales_det.id %}"></a></td>
+				  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-remove" href="{% url 'sales_det_delete' pk=sales_det.id %}"></a></td>
+                </tr>
+				{% endfor %}
+
+              </tbody>
+	</table>
+{% endblock %}
+{% block scripts %}
+<script>
+var $j = jQuery.noConflict();
+$j(".datepicker").datepicker();
+  </script>{% endblock %}

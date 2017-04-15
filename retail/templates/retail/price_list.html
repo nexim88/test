@@ -1,0 +1,38 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'price_new' %}">New Price</a>
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for price in list %}
+                <tr>
+                  <td>{{ price.id }}</td>
+                  <td>{{ price.code }}</td>
+				  <td><a id="btnEdit" class="btn btn-primary btn-sm" href="{% url 'price_edit' pk=price.id %}">EDIT</a></td>
+				  <td><a id="btnDelete" class="btn btn-primary btn-sm" href="{% url 'price_delete' pk=price.id %}">DELETE</a></td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

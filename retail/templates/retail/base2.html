@@ -1,0 +1,169 @@
+{% load static from staticfiles %}
+{% comment 'Example' %}  
+{% endcomment %}
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+<head>
+  <title>PRECARE</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- <link href='https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed' rel='stylesheet' type='text/css'> -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="favicon.ico">
+
+  
+    <link href="{% static 'css/1.12.1/jquery-ui.css' %}" rel="stylesheet">
+	<link rel="stylesheet prefetch" href="{% static 'css/3.3.7/bootstrap.min.css' %}">
+	<link rel="stylesheet prefetch" href="{% static 'css/style.css' %}">
+	<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+	
+	<script src="{% static 'js/jquery/3.1.1/jquery.min.js' %}"></script>
+	<script src="{% static 'js/jquery-ui/1.10.2/jquery-ui.js' %}"></script>
+	<script src="{% static 'js/jquery/3.3.7/bootstrap.min.js' %} "></script>
+
+	<script src="{% static 'js/main_base.js' %}"></script>
+</head>
+{% endblock %}
+<body>
+<header>
+
+<nav class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}">PRECARE</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="{% url 'index' %}">Home</a></li>
+		{% with request.path as url_path %}
+					<li><a href="{% url 'inventory_stationery_view' 'ST' %}">Stationery</a></li>
+					<li><a href="{% url 'inventory_stationery_view' 'OF' %}">Office</a></li>
+					<li><a href="{% url 'inventory_stationery_view' 'PR' %}">Printer Accessories</a></li>
+					<li><a href="{% url 'inventory_stationery_view' 'PT' %}">Pantry</a></li>
+					<li><a href="{% url 'inventory_stationery_view' 'PM' %}">Promotions</a></li>
+		
+					<li><a href="{% url 'about' %}">About Us</a></li>
+
+		{% endwith %}
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        	{% if user.is_authenticated %}
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'login' %}" ><span class="glyphicon glyphicon-user"></span> Welcome {{user.username}} <span class="caret"></span>
+					</a>
+					          <ul class="dropdown-menu">
+            <li><a href="#" data-toggle="modal" data-target="#myModal1"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li><a href="#"> Dashboard</a></li>
+          </ul>
+
+				</li>
+				{% else %}
+				<li><a href="{% url 'login' %}" data-toggle="modal" data-target="#myModal1" ><span class="glyphicon glyphicon-log-in"></span> Login
+				</a></li>
+				{% endif %}
+				{% if sales is None %}
+				<li><a href="{% url 'sales_web_view' %}"  data-toggle="modal" data-target="#myModal1"><span class="glyphicon glyphicon-shopping-cart"></span><span class="badge" id="amt"> 0.00</span>
+				</a></li>
+				{% elif sales.doc_net_amt == 0 %}
+				<li><a href="{% url 'sales_web_view' %}"  data-toggle="modal" data-target="#myModal1"><span class="glyphicon glyphicon-shopping-cart"></span><span class="badge" id="amt"> 0.00</span>
+				</a></li>
+				{% else %}
+				<li><a href="{% url 'sales_web_view' %}" id="btnCart" data-toggle="modal" data-target="#myModal1" ><span class="glyphicon glyphicon-shopping-cart"></span><span class="badge" id="amt"> {{sales.doc_net_amt|default:0.00}}</span>
+				</a></li>
+				{% endif %}
+				<li><a href="#"><span class="glyphicon glyphicon-earphone"></span><span>(604) 261-6943 / 262-7485</span>
+				</a></li>
+				
+      </ul>
+    </div>
+  </div>
+</nav>
+</header>
+<div class="container">
+  <div id="page-content">
+<section class="ArticleContainer">
+    <article>
+      
+    </article>
+    <aside class="Aside">
+      <div class="AdUnit">
+        <div class="Ad Ad--200x125">
+          <img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+        </div>
+      </div>
+
+      <div class="AdUnit">
+        <div class="Ad Ad--200x125">
+          <img src="http://css-tricks.com/examples/AdRegions/ads/2.jpg" alt="Ad" class="Ad-image" />
+        </div>
+      </div>
+
+    </aside>
+  </section>
+		{% block content %}{% endblock %}
+	
+</div>  
+  <footer class="page-footer">
+  	
+</footer>
+
+		<!-- Modal -->
+
+<div class="modal" id="myModal1" role="dialog">
+<div class="Message">  
+
+
+	  <!-- Modal content-->
+	  <div class="modal-content">
+	  
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Purchase List</h4>
+		</div>
+		<div class="modal-body">
+		  <p>No item</p>
+		</div>		
+		<div class="footer">
+		  <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+		</div>
+		</div>
+	  
+	  
+</div>
+
+</div>
+<div class="modal" id="myModal3" role="dialog">
+	<div class="Message">
+
+	  <!-- Modal content-->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" onclick="confirmModal(true);">&times;</button>
+		  <h4 class="modal-title">Confirmation</h4>
+		</div>
+		<div class="modal-body">
+		  <p id="msgCancel" visibility="hidden">Continue to cancel order?</p>
+		  <p id="msgEmail" visibility="hidden">Thanks for shopping with us. <br>You will receive your receipt through email shortly.</p>
+		</div>		
+		<div id ='footer' class="modal-footer">
+		  	<a href="{% url 'sales_web_view' %}" class="glyphicon glyphicon-chevron-left modal-footer add-to-cart" data-dismiss="modal" onclick="cancelSales();" >Yes</a>		
+		  	
+		</div>
+		</div>
+	  
+	  
+</div>
+</div>
+</div>
+</body>
+</html>

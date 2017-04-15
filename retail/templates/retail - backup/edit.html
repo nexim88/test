@@ -1,0 +1,17 @@
+<html>
+<head>
+</head>
+
+<body>
+{{ view.title }}
+<ul>
+<form action="{{action}}" method="POST">
+{% csrf_token %}
+<ul>
+{{ form.as_ul }}
+
+</ul>
+<input id = "save" type="submit" value="Save" />
+</form>
+</body>
+</html>

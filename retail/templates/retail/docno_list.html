@@ -1,0 +1,42 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'docno_new' %}">New Document No</a>
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Description</th>
+			  <th>Current No</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for docno in list %}
+                <tr>
+                  <td>{{ docno.id }}</td>
+                  <td>{{ docno.code }}</td>
+				  <td>{{ docno.description }}</td>
+				  <td>{{ docno.currNo }}</td>
+				  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'docno_edit' pk=docno.id %}"></a></td>
+				  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-remove" href="{% url 'docno_delete' pk=docno.id %}"></a></td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

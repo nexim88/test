@@ -1,0 +1,15 @@
+<html>
+<head>
+Delete GST
+</head>
+
+<body>
+<p>Are you sure to delete the GST {{ object }}?</p>
+
+<form action="{% url 'gst_delete' pk=dim_gst.id %}" method="POST">
+{% csrf_token %}
+<input id = "delete_gst" type="submit" value="Yes, delete" />
+<a href="{% url 'gst_list' %}">No, cancel</a>
+</form>
+</body>
+</html>

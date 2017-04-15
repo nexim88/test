@@ -1,0 +1,32 @@
+ 
+  /*
+		for (row in data) {
+			alert(row["id"]);
+			$('#id_inventory').append($('<option></option>').attr('value', row["id"]).text(row["id"]));
+		}
+		/*
+	    hidePage();
+  },
+  error: function(jqXHR, textStatus, errorThrown) {
+                alert("error: " + errorThrown);
+            }
+  }
+)
+  .done(function( msg ) {
+    //alert( "Data Saved: " + msg );
+	alert( "Data Saved: " + msg );
+  }
+ );
+}
+ /*
+
+ $(document).ready(function(){
+ //alert('worked');
+test(); 
+ });
+*/
+
+
+		//$('#id_inventory').empty();
+		//$('#id_inventory').append(data[0]["pk"]);
+  //alert(data[0]["fields"]);

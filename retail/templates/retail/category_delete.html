@@ -1,0 +1,15 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+	<p>Are you sure to delete the {{ category.code }}?</p>
+
+	<form action="{% url 'category_delete' pk=category.id %}" method="POST">
+	{% csrf_token %}
+	<a class="btn btn-primary btn-md" href="{% url 'category_list' %}">Cancel</a>
+	<input class="btn btn-danger btn-md" id = "delete" type="submit" value="Yes, delete" />
+</form>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{view.title}}
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+<form action="{{action}}" method="POST">
+-{{sales_det.id}}-
+{% csrf_token %}
+{{ form.as_ul }}
+
+<!-- <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button> -->
+<button type="submit" class="btn btn-primary" >Save</button>
+</div>
+</form>
+  
+{% endblock %}

@@ -1,0 +1,153 @@
+/*
+ * Style tweaks
+ * --------------------------------------------------
+ */
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+body {
+  padding-top: 70px;
+}
+footer {
+  padding: 30px 0;
+}
+
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+@media screen and (max-width: 767px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+         -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+  }
+
+  .row-offcanvas-right {
+    right: 0;
+  }
+
+  .row-offcanvas-left {
+    left: 0;
+  }
+
+  .row-offcanvas-right
+  .sidebar-offcanvas {
+    right: -100%; /* 12 columns */
+  }
+
+  .row-offcanvas-right.active
+  .sidebar-offcanvas {
+    right: -50%; /* 6 columns */
+  }
+
+  .row-offcanvas-left
+  .sidebar-offcanvas {
+    left: -100%; /* 12 columns */
+  }
+
+  .row-offcanvas-left.active
+  .sidebar-offcanvas {
+    left: -50%; /* 6 columns */
+  }
+
+  .row-offcanvas-right.active {
+    right: 50%; /* 6 columns */
+  }
+
+  .row-offcanvas-left.active {
+    left: 50%; /* 6 columns */
+  }
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: 50%; /* 6 columns */
+  }
+}
+
+.bg-inverse{
+	background-color:#f45a40 !important;
+}
+
+.align-right{
+	text-align:right !important;
+}
+
+.deleteRow{
+	background-color:blue;
+}
+
+.deleteRow:hover{
+	background-color:navy;
+}
+
+.curtain {
+	cursor: pointer;
+  //width: 100%; /* Ensures the component is the full screen width */
+  //height: 100%; /* We're using this for demo purposes */
+  overflow: hidden; /* Allows us to slide the panels outside the container without them showing */
+}
+  
+.curtain__wrapper {
+  width: 100%;
+  height: 100%;
+}
+      
+.curtain__panel {
+  background: orange;
+  width: 50%; /* Each panel takes up half the container */
+  //height: 100vh; /* Used for demo purposes */
+  float: left; /* Makes sure panels are side-by-side */
+  position: relative; /* Needed to define the z-index */
+  z-index: 2; /* Places the panels in front of the prize */
+}
+
+.curtain__panel--left {
+  /* Styles for sliding the left panel */
+}
+
+.curtain__panel--right {
+  /* Styles for sliding the right panel */
+}
+  
+.curtain__prize {
+  background: #333;
+  position: absolute; /* Forces the prize position into the container start */
+  z-index: 1; /* Places the prize behind the panels, which are z-index 2 */
+  //width: 100%;
+  //height: 100%;
+}
+input[type=checkbox] {
+  position: absolute;
+  /* Force the checkbox at the start of the container */
+  width: 100%;
+  /* The checkbox is as wide as the component */
+  height: 100%;
+  /* The checkbox is as tall as the component */
+  z-index: 100;
+  /* Make sure the checkbox is on top of everything else */
+  opacity: 0;
+  /* Hide the checkbox */
+}
+
+input[type=checkbox]:checked ~ div.curtain__panel--left {
+  transform: translateX(0);
+}
+
+/* Slide the second panel in */
+input[type=checkbox]:checked ~ div.curtain__panel--right {
+  transform: translateX(0);
+}
+
+/* Slide the panel to the left out of the container */
+.curtain__panel--left {
+  transform: translateX(-100%);
+}
+
+/* Slide the panel to the right out of the container */
+.curtain__panel--right {
+  transform: translateX(100%);
+}

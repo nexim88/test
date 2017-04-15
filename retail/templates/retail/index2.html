@@ -1,0 +1,69 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+
+{% comment "Sales Edit" %}
+{{title}}
+	{% with columnCount=1 %}
+{% endwith %}	
+	{{ columnCount|add:"1"}}
+{% endcomment %}
+
+{% block title %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+{% if salesHeader is None %}
+<div>not ok</div>
+{% else %}
+<div>ok</div>
+{% endif %}
+
+<div >
+{% for inv in list %}
+{% if forloop.counter0|divisibleby:5 %}<div class="row">{% endif %}
+<div class="column">
+    <div class="card">
+	  <img src="/media/{{ inv.imgFile }}" alt="{{inv.description}}" style="width:100px;height:100px;">
+        <h2>{{inv.code}}</h2>
+        <p class="title">{{inv.description}}</p>
+        <p>{{inv.remark}}</p>
+        <p><input type="number" id="myNumber" value="0"></p>
+		<p><button class="button">Add <span class="glyphicon glyphicon-shopping-cart"></span></button></p>
+        
+	  
+    </div>
+  </div>
+
+{% if forloop.counter|divisibleby:5 or forloop.last %}</div>{% endif %}
+{% endfor %}		
+</div>
+
+{% endblock %}
+
+
+{% block footer %}
+  <div class="about center-main-block clearfix">
+  <h2>About</h2>
+    <div class="map">
+	   	<div class="mapin">
+			<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d993.0043213550574!2d100.3394937!3d5.4143372!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6d7ddb611cedf9a6!2sPrecare!5e0!3m2!1sen!2s!4v1487485893750" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>		
+		</div>
+	</div>
+	<p>About us</p>
+  	
+</div>
+<div class="subscribe ">
+	<div class="center-main-block  clearfix">
+		<span class="signup"><strong>Sign up</strong> for exclusive sales and product news</span>
+	<div class="subscribe-form">
+	<form action="" method="get">
+		<input type="email" placeholder="precare@gmail.com" class="pochta">
+		<input type="submit" value="sign up" class="submit-btn">
+	</form>
+</div>
+</div>
+</div>
+{% endblock %}

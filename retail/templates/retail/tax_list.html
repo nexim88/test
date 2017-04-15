@@ -1,0 +1,38 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'tax_new' %}">New Tax</a>
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for tax in list %}
+                <tr>
+                  <td>{{ tax.id }}</td>
+                  <td>{{ tax.code }}</td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'tax_edit' pk=tax.id %}">EDIT</a></td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'tax_delete' pk=tax.id %}">DELETE</a></td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

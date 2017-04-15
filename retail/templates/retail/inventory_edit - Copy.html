@@ -1,0 +1,49 @@
+{% extends 'retail/base.html' %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+	<form action="{{action}}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.as_p }}
+
+		<img src="/media/{{ form.imgFile.value }}" height="420">
+		<!-- <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button> -->
+		<a class="btn btn-primary btn-md" href="{% url 'inventory_list' %}">Cancel</a>
+		<button type="submit" class="btn btn-primary" >Save</button>
+	</form>
+	
+		
+	{% if title == 'Edit Inventory' %}
+		
+		{% if inventory_id %}
+			<a class="btn btn-primary btn-sm glyphicon glyphicon-plus" href="{% url 'price_new' %}"></a>
+		{% endif %}
+        
+	{% endif %}
+        
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+				{% for price in price_list %}
+				<tr>
+				  <td>{{ price.code }}</td>
+				  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'price_edit' pk=price.id %}"></a></td>
+				  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-remove" href="{% url 'price_delete' pk=price.id %}"></a></td>
+				</tr>
+				{% endfor %}
+
+              </tbody>
+	</table>
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'unit_new' %}">New Unit</a>
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for unit in list %}
+                <tr>
+                  <td>{{ unit.id }}</td>
+                  <td>{{ unit.code }}</td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'unit_edit' pk=unit.id %}">EDIT</a></td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'unit_delete' pk=unit.id %}">DELETE</a></td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

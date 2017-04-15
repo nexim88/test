@@ -1,0 +1,194 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+{% comment "Sales Edit" %}
+{% endcomment %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'sales_web_view' %}" id="btnCart" class="btn btn-info btn-lg button_ct" data-toggle="modal" data-target="#myModal1" >Cart<div id="amt"></div></a>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal1" role="dialog">
+	<div class="modal-dialog">
+
+	  <!-- Modal content-->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Modal Header1</h4>
+		</div>
+		<div class="modal-body">
+		  <p>Some text in the modal.</p>
+		  <p id ="id_unit_price"></p>
+		  
+		  <input type="text" id ="id_det_amt">
+		  <input type="text"  id ="id_gst_amt">
+		  <input type="text"  id ="id_net_amt">
+		</div>		
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+		</div>
+	  
+	  
+</div>
+</div>
+
+<div class="modal fade" id="myModal3" role="dialog">
+	<div class="modal-dialog">
+
+	  <!-- Modal content-->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Confirmation</h4>
+		</div>
+		<div class="modal-body">
+		  <p id="msg">Continue to cancel order?</p>
+		</div>		
+		<div id ='footer' class="modal-footer">
+		  	<a href="{% url 'sales_web_view' %}" class="btn btn-danger" data-dismiss="modal" onclick="cancelSales();" >Yes</a>		
+		  	<a id="btnConfirm" href="javascript:void(0);" onclick="confirmModal(true);" class="btn btn-primary" >No</a>		
+
+		</div>
+		</div>
+	  
+	  
+</div>
+</div>
+
+<div class="pricing-tables">
+	<div class="row">
+		{% for inv in list %}
+		<div class="col-sm-3 col-md-3">
+
+			<div class="plan">
+
+				<div class="head">
+				<a href="{% url 'inventory_web_view' pk=inv.id v='c' %}" data-toggle="modal" data-target="#myModal1" ">
+
+					<h2>{{inv.description}}</h2>
+					<img src="/media/{{ inv.imgFile }}" width="100%" class="img-thumbnail img-wrap" alt="{{inv.description}}">
+				</a>
+				</div>  
+				
+			<div class="price">
+				{% if inv.price__unit_price is None %}
+					<h3><span class="symbol">RM </span> -- / {{inv.dim_unit__code}}</h3>
+				{% else %}
+					<h3><span class="symbol">RM </span>{{inv.price__unit_price}} / {{inventory.dim_unit__code}}</h3>
+				{% endif %}
+			</div>
+
+			<div class="input-group">
+			<span class="input-group-btn" >
+				<button id= "minus__{{inv.id}}" type="button" class="btn btn-danger btn-number quantity-left-minus"  data-type="minus" data-field="quant[2]" >
+					<span class="glyphicon glyphicon-minus"></span>
+				</button>
+			</span>
+			
+			<input id="quantity__{{inv.id}}"  type="text" name="quant[2]" class="form-control input-number" value="0" min="1" max="100" >
+			
+					
+			<span class="input-group-btn">
+				<button id="plus__{{inv.id}}" type="button" class="btn btn-success btn-number quantity-right-plus" data-type="plus" data-field="quant[2]" >
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			</span>
+			
+</div>		
+		
+				<ul class="item-list">
+					<li>{{inv.remark}}</li>
+					<!-- <li><strong>300</strong> users/month</li> -->
+					<!-- <li>14 Day Free Trial</li> -->
+					<!-- <li>Standard Widgets</li> -->
+					<!-- <li>Standard Integrations</li> -->
+					<!-- <li>API Access</li> -->
+					<!-- <li>Email Support</li> -->
+				</ul>
+			</div>
+			
+				<button id="cart__{{inv.id}}" type="button" class="btn btn-success btn-number cart-txt" data-type="plus" data-field="quant[2]" >
+					<span class="glyphicon glyphicon-shopping-cart"></span> Add to cart
+				</button>
+
+		</div>
+		{% endfor %}
+
+	</div>
+</div>
+		  
+{% endblock %}
+
+{% block scripts %}
+<script>
+   $('.quantity-right-plus').click(function(e){
+        
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+		var buttonName = this.id;
+		var n = buttonName.lastIndexOf("__");
+		var invID = buttonName.substring(n)
+		invID = invID.replace("__", "");
+		txtQtyName="quantity__" + invID;
+        
+		var txtQty = document.getElementById(txtQtyName);
+        var quantity = parseInt(txtQty.value);
+		
+		txtQty.value = quantity + 1;
+		
+		
+    });
+
+     $('.quantity-left-minus').click(function(e){
+	 
+		// Stop acting like a button
+		  e.preventDefault();
+		var buttonName = this.id;
+		var n = buttonName.lastIndexOf("__");
+		var invID = buttonName.substring(n)
+		invID = invID.replace("__", "");
+		txtQtyName="quantity__" + invID;
+        
+		var txtQty = document.getElementById(txtQtyName);
+        var quantity = parseInt(txtQty.value);
+        
+        // If is not undefined
+      
+            // Increment
+            if(quantity>0){
+				txtQty.value = quantity - 1;
+				//doSales(pk, quantitiy);
+		
+			}
+    });
+	
+
+   $('.cart-txt').click(function(e){
+        
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+		var buttonName = this.id;
+
+		var n = buttonName.lastIndexOf("__");
+		var invID = buttonName.substring(n)
+		invID = invID.replace("__", "");
+		txtQtyName="quantity__" + invID;
+        
+		var txtQty = document.getElementById(txtQtyName);
+        var quantity = parseInt(txtQty.value);
+		
+		doSales(invID, quantity);
+		
+    });   
+
+	</script>
+	{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'retail/base.html' %}
+
+{% comment "Purchase Edit" %}
+{% endcomment %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+	<form action="{{action}}" method="POST">
+		{% csrf_token %}
+		<a class="btn btn-primary btn-md" href="{% url 'purchase_list' %}">Cancel</a>
+		<button type="submit" class="btn btn-primary" >Save</button>
+		{{ form.as_p }}
+	</form>
+	{% if purchase_id %}
+		<a class="btn btn-primary btn-md" href="{% url 'purchase_det_new' %}">New Purchase Detail</a>
+	{% endif %}
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Qty</th>
+			  <th>GST Amt</th>
+			  <th>Amt</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+				{% for purchase_det in purchase_det_list %}
+                <tr>
+                  <td>{{ purchase_det.seq }}</td>
+				  <td>{{ purchase_det.qty }}</td>
+				  <td>{{ purchase_det.gst_amt }}</td>
+				  <td>{{ purchase_det.det_amt }}</td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'purchase_det_edit' pk=purchase_det.id %}">EDIT</a></td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'purchase_det_delete' pk=purchase_det.id %}">DELETE</a></td>
+                </tr>
+				{% endfor %}
+
+              </tbody>
+	</table>
+{% endblock %}

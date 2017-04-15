@@ -1,0 +1,28 @@
+{% load static from staticfiles %}
+<html>
+<head>
+
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+<script src="{% static 'css/jquery.min.js' %}"></script>
+<script src="{% static 'css/jquery-ui.min.js' %}"></script>
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+
+
+
+</head>
+
+<body>
+{{view.title}}
+<ul>
+{% for tax in view.Taxs %}
+<li>{{ tax }} <a href="{% url 'tax_edit' pk=tax.id %}">edit</a> <a href="{% url 'tax_delete' pk=tax.id %}">delete</a></li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'tax_new' %}">add tax</a>
+<a href="{% url 'index' %}">Home</a>
+
+<script src="{% static 'css/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

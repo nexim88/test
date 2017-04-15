@@ -1,0 +1,96 @@
+
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+{% comment "Sales Edit" %}
+{% endcomment %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+	<form action="{{action}}" method="POST" class = "form">
+		{% csrf_token %}
+		<div class="form-group">
+			{% if sales_det_lst|length == 0 %}
+			<article>
+			<p>No item in the cart <span class="fa fa-frown-o"></span></p>
+			</article>
+			{% else %}
+			<button type="submit" id="btnCancel" class="btn btn-sm btn-danger fa fa-times" ></button>
+				<button type="submit" id="btnCheckout" class="btn btn-sm btn-primary fa fa-money" ></button>
+				{% endif %}
+		</div>
+
+	<div class="form-group">
+{{sales.sales_date}}		
+		{% for field in form.visible_fields %}a
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field|add_class:'form-control' }}
+        {% for error in field.errors %}
+          <span class="help-block">>{{ error }}<</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+	</form>
+
+		{% if sales_det_lst|length > 0 %}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Item</th>
+			  <th class="align-right">Qty</th>
+			  <th class="align-right">GST Amt (RM)</th>
+			  <th class="align-right">Amt (RM)</th>
+			  <th class="align-right">Net Amt (RM)</th>
+			  <th><span class="fa fa-remove"></span></th>
+			</tr>
+		</thead>
+              <tbody>
+				{% for sales_det in sales_det_lst %}
+                <tr>
+				
+                  <td>{{ sales_det.seq }}</td>
+				  <td>{{ sales_det.inventory_id|stringformat:"s" }}
+					{% for inv in inventoryList %}
+						
+			
+						{% if inv.id|stringformat:"s" == sales_det.inventory_id|stringformat:"s" %}
+	  <br/><img src="/media/{{ inv.imgFile }}" alt="{{inv.description}}" style="height:80px;" >
+						{% endif %}
+					{% endfor %}
+				  </td>
+				  <td class="align-right">
+				  <p><input type="number" id="inv_{{sales_det.inventory_id}}_Qty" value="{{sales_det.qty}}"></p>
+				  <p><a id="inv_{{sales_det.inventory_id}}" href="javascript:void(0);" class="btnCart">Add <span class="fa fa-shopping-cart"></span></a></p>
+				  </td>
+				  <td class="align-right">{{ sales_det.gst_amt|floatformat:2 }}</td>
+				  <td class="align-right">{{ sales_det.det_amt|floatformat:2 }}</td>
+				  <td class="align-right">{{ sales_det.net_amt|floatformat:2 }}</td>
+					<td><button id="inv_{{sales_det.inventory_id}}" type="submit" class="btnRemove" ></button></td>
+                </tr>
+				{% endfor %}
+
+              </tbody>
+			  
+			  <tfoot>
+			  <td></td>
+			  <td></td>
+			  <td></td>
+			  <td class="align-right">{{sales.doc_gst_amt|floatformat:2 }}</td>
+			  <td class="align-right">{{sales.doc_amt|floatformat:2 }}</td>
+			  <td class="align-right">{{sales.doc_net_amt|floatformat:2 }}</td>
+			  <td></td>
+			</tfoot>
+	</table>
+	{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+var $j = jQuery.noConflict();
+$j(".datepicker").datepicker();
+  </script>{% endblock %}

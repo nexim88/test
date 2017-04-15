@@ -1,0 +1,37 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{view.title}}
+{% endblock %}
+123
+{% block content %}
+<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal" href="{% url 'purchase_new' %}">
+  New Purchase
+</button>
+
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Purchase No</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+			  {% for purchase in object_list %}
+                <tr>
+                  <td>{{ purchase.id }}</td>
+                  <td>{{ purchase.pi_no}}</td>
+				  <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" href="{% url 'purchase_edit' pk=purchase.id %}">edit</button></td>
+				  <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" href="{% url 'purchase_delete' pk=purchase.id %}">delete</button></td>
+                </tr>
+			  {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+
+{% endblock %}
+

@@ -1,0 +1,38 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'promotion_new' %}">New Promotion</a>
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for promotion in list %}
+                <tr>
+                  <td>{{ promotion.id }}</td>
+                  <td>{{ promotion.code }}</td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'promotion_edit' pk=promotion.id %}">EDIT</a></td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'promotion_delete' pk=promotion.id %}">DELETE</a></td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

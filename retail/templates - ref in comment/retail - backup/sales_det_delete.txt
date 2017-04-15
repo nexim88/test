@@ -1,0 +1,15 @@
+<html>
+<head>
+Delete
+</head>
+
+<body>
+<p>Are you sure to delete the {{ object.code }}?</p>
+
+<form action="{% url 'promotion_delete' pk=object.id %}" method="POST">
+{% csrf_token %}
+<input id = "delete" type="submit" value="Yes, delete" />
+</form>
+</body>
+</html>
+

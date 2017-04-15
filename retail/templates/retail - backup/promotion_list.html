@@ -1,0 +1,28 @@
+{% load static from staticfiles %}
+<html>
+<head>
+
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+<script src="{% static 'css/jquery.min.js' %}"></script>
+<script src="{% static 'css/jquery-ui.min.js' %}"></script>
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+
+
+
+</head>
+
+<body>
+{{view.title}}
+<ul>
+{% for promotion in view.Promotions %}
+<li>{{ promotion.code }} <a href="{% url 'promotion_edit' pk=promotion.id %}">edit</a> <a href="{% url 'promotion_delete' pk=promotion.id %}">delete</a></li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'promotion_new' %}">add promotion</a>
+<a href="{% url 'index' %}">Home</a>
+
+<script src="{% static 'css/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

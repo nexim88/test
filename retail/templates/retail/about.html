@@ -1,0 +1,67 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+
+{% comment "Sales Edit" %}
+{{title}}
+	{% with columnCount=1 %}
+{% endwith %}	
+	{{ columnCount|add:"1"}}
+{% endcomment %}
+
+{% block title %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+	  <div class="block-footer center-main-block clearfix">
+		  <article>
+			  <h2>Our Stores</h2>
+			  <div class="footer-content">
+			  <p>Feel free to visit our stores or contact us.<br>
+59, Chulia Street Ghaut <br>
+10300 George Town <br>
+Pulau Pinang, Malaysia <br>
+(604) 261-6943 / 262-7485</p>
+
+        <p>(604) 262-7485</p>
+		    </div>
+		  </article>
+		
+	<article>
+			<h2>Support</h2>
+			<div class="footer-content clearfix ">
+	  		<p class="support1 "><a href="">Terms & Conditions</a><br>
+		  	<a href="">FAQ</a><br>
+			  <a href="">Payment</a><br>
+			  <a href="">Refunds</a><br>
+			  <a href="">Track Order</a><br>
+		  	<a href="">Services</a><br>
+		  	<a href="">Privacy & Security</a><br>
+			  <a href="">Careers</a><br>
+			  <a href="">Press</a><br>
+			  <a href="">Corporate Information</a></p> 
+			  <p class="support2 "><a>Sizing</a><br>
+			  <a href="">Ordering</a><br>
+        <a href="">Shipping</a><br>
+        <a href="">Return Policy</a><br>
+        <a href="">Affiliates</a><br>
+        <a href="">Find A Store </a><br>
+        <a href="">Site Map</a><br>
+        <a href="">Sign Up & Save</a></p>    
+		  </div>
+	</article>
+	<article>
+			<h2>Contact us</h2>
+			  <div class="footer-content clearfix">
+				  <form>
+					  <input class="form-control" class="email" type="mailto" placeholder="YOUR E-MAIL...">
+					  <textarea class="form-control textform" placeholder="YOUR TEXT...">
+					  </textarea>
+					  <input class="btn btn-outline-primary" type="submit" value="Send MESSAGE">
+				  </form>
+			  </div>
+  </article>
+	</div>
+	
+	{% endblock %}

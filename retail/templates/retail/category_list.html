@@ -1,0 +1,52 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-outline-success btn-sm fa fa-plus" href="{% url 'category_new' %}"> NEW</a>
+
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Description</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for category in list %}
+                <tr>
+				<td>{{ category.id }}</td>
+				<td>{{ category.code }}</td>
+				<td>{{ category.description }}</td>
+				<td><a class="btn btn-outline-primary btn-sm fa fa-edit" href="{% url 'category_edit' pk=category.id %}"> EDIT</a></td>
+				  
+				<td><a class="btnRemove btn btn-outline-danger btn-sm fa fa-trash-o" href="{% url 'category_delete' pk=category.id %}"> REMOV1E</a></td>
+				  
+					<!-- <div class="btn btn-outline-danger btn-sm deleteRow"> -->
+						<!-- <input class='slider' name='slide' type='checkbox'> -->
+						<!-- <a class="btn btn-outline-danger btn-sm fa fa-trash-o" href="{% url 'category_delete' pk=category.id %}"> -->
+							<!-- DELETE -->
+						<!-- </a> -->
+					<!-- </div> -->
+					
+					
+				</td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

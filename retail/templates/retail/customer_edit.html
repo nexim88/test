@@ -1,0 +1,102 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+{% comment "Customer Edit" %}
+
+{% endcomment %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+	<form action="{{action}}" method="POST" class = "form">
+		{% csrf_token %}
+		<div class="form-group">
+			{% url 'customer_view' customer_id as customer_view_path %}
+			{% url 'customer_edit' customer_id as customer_edit_path %}
+			{% url 'customer_new' as customer_new_path %}
+
+			{{customer_view_path}}
+			{{customer_edit_path}}
+			{{customer_new_path}}
+			{{request.path}}
+			
+			{% if customer_new_path == request.path %}
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-ban-circle" href="{% url 'customer_list' %}"></a>
+				<button type="submit" class="btn btn-sm btn-primary glyphicon glyphicon-floppy-disk" ></button>
+			{% endif %}
+			
+			{% if customer_view_path == request.path %}
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'customer_edit' customer_id %}"></a>
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-list-alt" href="{% url 'customer_list' %}"></a>			
+			{% endif %}
+			
+			{% if customer_edit_path == request.path %}
+				<a class="btn btn-primary btn-sm glyphicon glyphicon-ban-circle" href="{% url 'customer_view' customer_id %}"></a>
+				<button type="submit" class="btn btn-sm btn-primary glyphicon glyphicon-floppy-disk" ></button>
+			{% endif %}
+			
+		</div>
+
+<div>
+{{form.errors}}
+</div>
+	<div class="form-group">
+		
+		{% for field in form.visible_fields %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+		{% if title == 'View Customer' %}
+		{{ field|attr:'readonly=readonly'|add_class:'form-control' }}
+		{% else %}
+        {{ field|add_class:'form-control' }}
+		{% endif %}
+        {% for error in field.errors %}
+          <span class="help-block">>{{ error }}<</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+	</form>
+	
+	{% if title == 'Edit Customer' %}
+		
+		{% if customer_id %}
+			<a class="btn btn-primary btn-sm glyphicon glyphicon-plus" href="{% url 'customer_new' %}"></a>
+		{% endif %}
+        
+	{% endif %}
+        
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+				{% for price in price_list %}
+                <tr>
+                  <td>{{ price.code }}</td>
+				  {% if title == 'Edit Customer' %}
+					  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'price_edit' pk=price.id %}"></a></td>
+					  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-remove" href="{% url 'price_delete' pk=price.id %}"></a></td>
+				  {% else %}
+					  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-edit disabled" href="{% url 'price_edit' pk=price.id %}"></a></td>
+					  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-remove disabled" href="{% url 'price_delete' pk=price.id %}"></a></td>
+				 {% endif %}
+				  
+                </tr>
+				{% endfor %}
+
+              </tbody>
+	</table>
+{% endblock %}
+{% block scripts %}
+<script>
+var $j = jQuery.noConflict();
+$j(".datepicker").datepicker();
+  </script>{% endblock %}

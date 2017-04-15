@@ -1,0 +1,38 @@
+{% load static from staticfiles %}
+<html>
+<head>
+
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+<script src="{% static 'css/jquery.min.js' %}"></script>
+<script src="{% static 'css/jquery-ui.min.js' %}"></script>
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+
+
+
+</head>
+
+<body>
+{{view.title}}
+<ul>
+<li><a href="{% url 'gst_list' %}">GST</a></li>
+<li><a href="{% url 'unit_list' %}">Unit</a></li>
+<li><a href="{% url 'review_list' %}">Review</a></li>
+<li><a href="{% url 'contact_type_list' %}">Contact Type</a></li>
+<li><a href="{% url 'contact_info_list' %}">Contact Info</a></li>
+<li><a href="{% url 'customer_list' %}">Customer</a></li>
+<li><a href="{% url 'supplier_list' %}">Supplier</a></li>
+<li><a href="{% url 'inventory_list' %}">Inventory</a></li>
+<li><a href="{% url 'price_list' %}">Price</a></li>
+<li><a href="{% url 'tax_list' %}">Tax</a></li>
+<li><a href="{% url 'promotion_list' %}">Promotion</a></li>
+<li><a href="{% url 'sales_list' %}">Sales</a></li>
+<li><a href="{% url 'sales_det_list' %}">Sales Detail</a></li>
+<li><a href="{% url 'purchase_list' %}">Purchases</a></li>
+<li><a href="{% url 'purchase_det_list' %}">Purchases Detail</a></li>
+</ul>
+
+
+<script src="{% static 'css/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

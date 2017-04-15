@@ -1,0 +1,105 @@
+		
+
+'''	
+def contactinfo_new(request, contacttype_id=None):
+
+	form = Contact_InfoForm(request.POST or None)
+	
+	if request.method == 'POST':
+
+		if form.is_valid():
+			form.save()
+			return redirect('contact_info_list')
+		else:
+			return HttpResponse('Save Error')
+	
+	else:
+	
+		try:
+			ct = DIM_Contact_Type.objects.get(pk=contacttype_id)
+			usr=User.objects.get(username='fai')
+			form = Contact_InfoForm(initial={'contacttype':ct, 'user':usr})
+			
+		except DIM_Contact_Type.DoesNotExist:
+			ct=None
+			
+	context = {'form': form, 'title':'New Contact Info', 'back_url':'contact_info_list'} 
+	return render(request, 'retail/edit.html', context)
+
+
+def contactinfo_edit(request, pk):
+
+	ci = Contact_Info.objects.get(pk=pk)
+	form = Contact_InfoForm(instance=ci)
+	return render(request, 'retail/edit.html', {'form': form, 'title':'Contact Info', 'back_url':'contact_info_list'})
+	
+'''
+		'''
+    This view allows a user to edit details of a project.
+
+def EditProject(request, project_id=None):
+
+	title = u'Unirac - Edit Project'
+    project = Project.objects.get(id=4)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            # save form
+            form.save()
+        else:
+            return render_to_response('edit_project.html', {
+                'title': title,
+                'form': form,
+            }, RequestContext(request))
+    else:
+        form = ProjectForm(instance=project)
+        return render_to_response('edit_project.html', {
+            'title': title,
+            'form': form,
+        }, RequestContext(request))
+		
+
+	def get_context_data(self, **kwargs):
+		print("create contact info" + ' test' + ': ' + self.kwargs['contacttype_id'])
+		ct_id=self.kwargs['contacttype_id']
+		ct = DIM_Contact_Type.objects.get(pk=self.kwargs['contacttype_id'])
+		Contact_Info.contacttype=ct
+		context = super(CreateContactInfoView, self).get_context_data(**kwargs)
+		context['action'] = reverse('contact_info_new')
+	
+		return context
+
+'''		
+
+'''
+	def SalesDets(self):
+		print('test')
+		return Sales_Det.objects.all()
+	
+	def GSTDets(self):
+		return DIM_GST.objects.all()
+		
+	def InvDets(self):
+		return Inventory.objects.all()
+'''
+
+'''
+
+	def get_success_url(self):
+		return reverse(self.success_url)
+		
+	def get_context_data(self, **kwargs):
+		print('ok')
+		context = super(CreateSalesView, self).get_context_data(**kwargs)
+		print('ok')
+		print(Sales_Det.objects.count())
+		context['salesdetlst'] = Sales_Det.objects.all()
+		context['action'] = reverse('sales_new')
+	
+		return context
+'''		
+'''
+	def SalesDets(self):
+		print('test')
+		return Sales_Det.objects.all()
+'''

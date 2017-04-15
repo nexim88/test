@@ -1,0 +1,40 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'inventory_new' %}">New Inventory</a>
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Description</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for inventory in list %}
+                <tr>
+                  <td>{{ inventory.id }}</td>
+                  <td>{{ inventory.code }}</td>
+				  <td>{{ inventory.description }}</td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'inventory_edit' pk=inventory.id %}">EDIT</a></td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'inventory_delete' pk=inventory.id %}">DELETE</a></td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

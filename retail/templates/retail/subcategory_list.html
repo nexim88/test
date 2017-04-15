@@ -1,0 +1,40 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'subcategory_new' %}">New Sub-Category</a>
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Description</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for subcategory in list %}
+                <tr>
+                  <td>{{ subcategory.id }}</td>
+                  <td>{{ subcategory.code }}</td>
+				  <td>{{ subcategory.description }}</td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'subcategory_edit' pk=subcategory.id %}">EDIT</a></td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'subcategory_delete' pk=subcategory.id %}">DELETE</a></td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

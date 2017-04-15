@@ -1,0 +1,75 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+
+{% comment "Sales Edit" %}
+{{title}}
+	{% with columnCount=1 %}
+{% endwith %}	
+	{{ columnCount|add:"1"}}
+{% endcomment %}
+
+{% block title %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+{% if salesHeader is None %}
+<div>not ok</div>
+{% else %}
+<div>ok</div>
+{% endif %}
+          <div class="jumbotron">
+            <h1>Hello, world!</h1>
+            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
+          </div>
+
+<div class="card-deck">
+
+{% for inv in list %}
+
+<div class="card">
+
+	  <img src="/media/{{ inv.imgFile }}" alt="{{inv.description}}" style="height:200px;" class="card-img-top img-fluid">
+		<div class="card-block">
+	  <h3 class="card-title">{{inv.code}}</h3>
+        <h5 class="card-text">{{inv.description}}</h5>
+        <p>{{inv.remark}}</p>
+		</div>
+		<div class="card-footer">
+		<p><input type="number" id="inv_{{inv.id}}_Qty" value="0"></p>
+		<p><a id="inv_{{inv.id}}" href="javascript:void(0);" class="btnCart">Add <span class="fa fa-shopping-cart"></span></a></p>
+        
+     <p><a class="text-muted" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+</div>
+{% endfor %}		
+</div>
+
+{% endblock %}
+
+
+{% block footer %}
+  <div class="about center-main-block clearfix">
+  <h2>About</h2>
+    <div class="map">
+	   	<div class="mapin">
+			<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d993.0043213550574!2d100.3394937!3d5.4143372!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6d7ddb611cedf9a6!2sPrecare!5e0!3m2!1sen!2s!4v1487485893750" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>		
+		</div>
+	</div>
+	<p>About us</p>
+  	
+</div>
+<div class="subscribe ">
+	<div class="center-main-block  clearfix">
+		<span class="signup"><strong>Sign up</strong> for exclusive sales and product news</span>
+	<div class="subscribe-form">
+	<form action="" method="get">
+		<input type="email" placeholder="precare@gmail.com" class="pochta">
+		<input type="submit" value="sign up" class="submit-btn">
+	</form>
+</div>
+</div>
+</div>
+{% endblock %}

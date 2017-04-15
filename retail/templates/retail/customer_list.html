@@ -1,0 +1,38 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+	{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'customer_new' %}">New Customer</a>
+
+
+<div class="table-responsive">
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Code</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+			<tbody>
+
+			{% for customer in list %}
+				<tr>
+                  <td>{{ customer.id }}</td>
+                  <td>{{ customer.code }}</td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'customer_view' pk=customer.id %}">EDIT</a></td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'customer_delete' pk=customer.id %}">DELETE</a></td>
+                </tr>
+				
+			{% endfor %}
+
+			</tbody>
+	</table>
+</div>
+
+{% endblock %}

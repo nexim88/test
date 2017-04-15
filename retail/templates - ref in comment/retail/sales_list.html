@@ -1,0 +1,46 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md glyphicon glyphicon-plus" href="{% url 'sales_new' %}"></a>
+
+<div class="table-responsive">
+
+	<table class="table table-striped table-condensed">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Inv. No</th>
+			  <th>Sales Date</th>
+			  <th>Customer</th>
+			  <th>Sales GST Amt</th>
+			  <th>Sales Amt</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+
+			  {% for sales in list %}
+                <tr>
+                  <td>{{ sales.id }}</td>
+                  <td>{{ sales.si_no }}</td>
+				  <td>{{ sales.sales_date }}</td>
+				  <td>{{ sales.customer }}</td>
+				  <td>{{ sales.doc_gst_amt }}</td>
+				  <td>{{ sales.doc_amt }}</td>
+				  <td><a class="btn btn-primary glyphicon glyphicon-list-alt" href="{% url 'sales_view' pk=sales.id %}"></a></td>
+				  <td><a class="btn btn-primary glyphicon glyphicon-remove" href="{% url 'sales_delete' pk=sales.id %}"></a></td>
+                </tr>
+				
+			  {% endfor %}
+
+              </tbody>
+	</table>
+</div>
+
+{% endblock %}
+

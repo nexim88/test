@@ -1,0 +1,15 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+	<p>Are you sure to delete the {{ price.code }}?</p>
+
+	<form action="{% url 'price_delete' pk=price.id %}" method="POST">
+	{% csrf_token %}
+	<a class="btn btn-primary btn-md" href="{% url 'price_list' %}">Cancel</a>
+	<input class="btn btn-danger btn-md" id = "delete" type="submit" value="Yes, delete" />
+</form>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{view.title}}
+{% endblock %}
+
+{% block content %}
+<!-- <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal" href="{% url 'sales_new' %}"> -->
+<a class="btn btn-primary btn-md" href="{% url 'sales_new' %}">New Sales</a>
+
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Inv No</th>
+                  <th>Date</th>
+                  <th>Promo Amt</th>
+                  <th>GST Amt</th>
+                  <th>Amt</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+			  {% for sales in object_list %}
+                <tr>
+                  <td>{{ sales.id }}</td>
+                  <td>{{ sales.si_no}}</td>
+                  <td>{{ sales.sales_date}}</td>
+                  <td>{{ sales.doc_promotion_amt}}</td>
+                  <td>{{ sales.doc_gst_amt}}</td>
+                  <td>{{ sales.doc_amt}}</td>
+				  <!-- <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" href="{% url 'sales_edit' pk=sales.id %}">edit</button></td> -->
+				  <!-- <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" href="{% url 'sales_delete' pk=sales.id %}">delete</button></td> -->
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'sales_edit' pk=sales.id %}">EDIT</a></td>
+				  <td><a class="btn btn-primary btn-sm" href="{% url 'sales_delete' pk=sales.id %}">DELETE</a></td>
+                </tr>
+			  {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+
+		  
+{% endblock %}
+

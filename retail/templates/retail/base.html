@@ -1,0 +1,287 @@
+{% load static from staticfiles %}
+{% comment 'Example' %}  
+{% endcomment %}
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+<head>
+  <title>PRECARE</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- <link href='https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed' rel='stylesheet' type='text/css'> -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="favicon.ico">
+
+  
+    <link href="{% static 'css/1.12.1/jquery-ui.css' %}" rel="stylesheet">
+	<link rel="stylesheet prefetch" href="{% static 'css/v4/bootstrap.min.css' %}">
+	<link rel="stylesheet prefetch" href="{% static 'css/style.css' %}">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">	
+	<!-- <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">	 -->
+	
+	<script src="{% static 'js/jquery-3.1.1.slim.min.js' %}"></script>
+	<script src="{% static 'js/jquery/3.1.1/jquery.min.js' %}"></script>
+	<script src="{% static 'js/tether.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %} "></script>
+
+	<script src="{% static 'js/offcanvas.js' %}"></script>
+	<script src="{% static 'js/modal.js' %}"></script>
+</head>
+{% endblock %}
+<body>	
+    <nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}">PRECARE</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+		    <a class="nav-link {% if url_path is none %} active{% endif %}" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+          </li>
+			{% with request.path as url_path %}
+				<li class="nav-item"><a class="nav-link {% if url_path == '/about/' %} active{% endif %}" href="{% url 'about' %}">About Us</a></li>
+
+
+          <!-- <li class="nav-item"> -->
+            <!-- <a class="nav-link disabled" href="#">Disabled</a> -->
+          <!-- </li> -->
+		  
+		  
+				<!-- <a class="dropdown-item {% if url_path == '/products/PM/' %} active{% endif %}" href="{% url 'inventory_stationery_view' 'PM' %}">Promotions</a> -->
+    			<li class="nav-item"><a class="nav-link {% if url_path == '/products/ST/' %} active{% endif %}" href="{% url 'inventory_stationery_view' 'ST' %}">Stationery</a></li>
+    			<li class="nav-item"><a class="nav-link {% if url_path == '/products/OF/' %} active{% endif %}" href="{% url 'inventory_stationery_view' 'OF' %}">Office</a></li>
+    			<li class="nav-item"><a class="nav-link {% if url_path == '/products/PR/' %} active{% endif %}" href="{% url 'inventory_stationery_view' 'PR' %}">Printer Accessories</a></li>
+    			<li class="nav-item"><a class="nav-link {% if url_path == '/products/PT/' %} active{% endif %}" href="{% url 'inventory_stationery_view' 'PT' %}">Pantry</a></li>
+    			<li class="nav-item"><a class="nav-link {% if url_path == '/products/PM/' %} active{% endif %}" href="{% url 'inventory_stationery_view' 'PM' %}">Promotions</a></li>
+    
+				
+
+		{% endwith %}
+        </ul>
+		
+		<ul class="navbar-nav navbar-right">
+		
+		<li class="nav-item">			{% url 'contact' as contact_path %}
+			<a class="nav-link {% if request.path == contact_path %} active{% endif %}" href="{% url 'contact' %}"><span class="fa fa-phone fa-lg"></span> Contact Us</a>
+		</li>
+		
+        {% if sales is None %}
+			<li class="nav-item">
+				<a class="nav-link disabled" href="{% url 'sales_web_view' %}" ><span class="fa fa-shopping-cart disabled"></span><span class="badge" id="amt"> 0.00</span>
+				</a>
+			</li>
+		{% elif sales.doc_net_amt == 0 %}
+			<li class="nav-item" >
+				<a class="nav-link disabled" href="{% url 'sales_web_view' %}" ><span class="fa fa-shopping-cart disabled"></span><span class="badge" id="amt"> 0.00</span>
+				</a>
+			</li>
+		{% else %}
+			<li class="nav-item">
+				<a class="nav-link enabled" href="{% url 'sales_web_view' %}" ><span class="fa fa-shopping-cart enabled"></span><span class="badge" id="amt"> {{sales.doc_net_amt|default:0.00}}</span>
+				</a>
+			</li>
+		{% endif %}
+          <!-- <li class="nav-item"> -->
+            <!-- <a class="nav-link disabled" href="#">Disabled</a> -->
+          <!-- </li> -->
+			<li class="nav-item dropdown">
+			
+		{% if user.is_authenticated %}
+			<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span> Welcome {{user.username}}</a>
+			<div class="dropdown-menu" aria-labelledby="dropdown01">
+			  
+
+			{% with request.path as url_path %}
+
+			<!-- <a id="modellink" class="dropdown-item" href="#" data-load-url="{% url 'login' %}" data-toggle="modal" data-target="#dlgModal"><span class="fa fa-sign-out"></span> Logout</a> -->
+			<a class="dropdown-item" data-toggle="modal" href="#myModal" id="modellink"><span class="fa fa-sign-out"></span> Logout</a>
+			<div class="dropdown-divider"></div>
+
+		  {% for group in user.groups.all %}
+				
+    {% if group.name == 'maintainer' or group.name == 'admin' %}
+
+	
+              
+
+				<a class="dropdown-item {% if url_path == '/category/' %} active{% endif %}" href="{% url 'category_list' %}"><span class="fa fa-list"></span> Category</a>
+				<a class="dropdown-item {% if url_path == '/products/OF/' %} active{% endif %}" href="{% url 'subcategory_list'%}"><span class="fa fa-list"></span> Sub-Category</a>
+				<a class="dropdown-item {% if url_path == '/products/PR/' %} active{% endif %}" href="{% url 'inventory_list' %}"><span class="fa fa-list"></span> Inventory</a>
+				<a class="dropdown-item {% if url_path == '/products/PT/' %} active{% endif %}" href="{% url 'inventory_stationery_view' 'PT' %}"><span class="fa fa-list"></span> Pantry</a>
+				<a class="dropdown-item {% if url_path == '/customer/' %} active{% endif %}" href="{% url 'customer_list' %}"><span class="fa fa-list"></span> Customer</a>
+				<a class="dropdown-item {% if url_path == '/gst/' %} active{% endif %}" href="{% url 'gst_list' %}"><span class="fa fa-list"></span> GST</a>
+				<a class="dropdown-item {% if url_path == '/state/' %} active{% endif %}" href="{% url 'state_list' %}"><span class="fa fa-list"></span> State</a>
+				<a class="dropdown-item {% if url_path == '/post/' %} active{% endif %}" href="{% url 'post_list' %}"><span class="fa fa-list"></span> Post</a>
+				<a class="dropdown-item {% if url_path == '/unit/' %} active{% endif %}" href="{% url 'unit_list' %}"><span class="fa fa-list"></span> Unit</a>
+				<a class="dropdown-item {% if url_path == '/contact_type/' %} active{% endif %}" href="{% url 'contact_type_list' %}"><span class="fa fa-list"></span> Contact Type</a>
+				<a class="dropdown-item {% if url_path == '/contact_info/' %} active{% endif %}" href="{% url 'contact_info_list' %}"><span class="fa fa-list"></span> Contact Info</a>
+				<a class="dropdown-item {% if url_path == '/review/' %} active{% endif %}" href="{% url 'review_list' %}"><span class="fa fa-list"></span> Review</a>
+				<a class="dropdown-item {% if url_path == '/price/' %} active{% endif %}" href="{% url 'price_list' %}"><span class="fa fa-list"></span> Price</a>
+				<a class="dropdown-item {% if url_path == '/promotion/' %} active{% endif %}" href="{% url 'promotion_list' %}"><span class="fa fa-list"></span> Promotions</a>
+				<a class="dropdown-item {% if url_path == '/sales/' %} active{% endif %}" href="{% url 'sales_list' %}"><span class="fa fa-list"></span> Sales</a>
+								
+				{% endif %}
+{% endfor %}
+				
+
+			{% endwith %}
+		{% else %}
+			<a class="nav-link " href="#myModal" id="modellink" data-toggle="modal" ><span class="fa fa-user"></span> Login</a>
+			
+		{% endif %}
+                        </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-12 col-md-9">
+          <p class="float-right hidden-md-up">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+		  {% block content %}{% endblock %}
+            
+        </div><!--/span-->
+
+        <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar">
+          <div class="list-group">
+            <a href="#" class="list-group-item">
+			
+			</a>
+            <a href="#" class="list-group-item">
+			</a>
+            <a href="#" class="list-group-item">
+			<img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+			</a>
+            <a href="#" class="list-group-item">
+			<img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+			</a>
+            <a href="#" class="list-group-item">
+			<img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+			</a>
+            <a href="#" class="list-group-item">
+			<img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+			</a>
+            <a href="#" class="list-group-item">
+			<img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+			</a>
+            <a href="#" class="list-group-item">
+			<img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+			</a>
+            <a href="#" class="list-group-item">
+			<img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+			</a>
+            <a href="#" class="list-group-item">
+			<img src="http://css-tricks.com/examples/AdRegions/ads/1.jpg" alt="Ad" class="Ad-image" />
+			</a>
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; PRECARE 2017</p>
+      </footer>
+
+    </div><!--/.container-->
+
+<!-- Modal -->
+
+<div class="modal" id="myModal1" role="dialog">
+<div class="Message">  
+
+
+	  <!-- Modal content-->
+	  <div class="modal-content">
+	  
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Purchase List</h4>
+		</div>
+		<div class="modal-body">
+		  <p>No item</p>
+		</div>		
+		<div class="footer">
+		  <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+		</div>
+		</div>
+	  
+	  
+</div>
+
+</div>
+<div class="modal" id="myModal3" role="dialog">
+	<div class="Message">
+
+	  <!-- Modal content-->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" onclick="confirmModal(true);">&times;</button>
+		  <h4 class="modal-title">Confirmation</h4>
+		</div>
+		<div class="modal-body">
+		  <p id="msgCancel" visibility="hidden">Continue to cancel order?</p>
+		  <p id="msgEmail" visibility="hidden">Thanks for shopping with us. <br>You will receive your receipt through email shortly.</p>
+		</div>		
+		<div id ='footer' class="modal-footer">
+		  	<a href="{% url 'sales_web_view' %}" class="glyphicon glyphicon-chevron-left modal-footer add-to-cart" data-dismiss="modal" onclick="cancelSales();" >Yes</a>		
+		  	
+		</div>
+		</div>
+	  
+	  
+</div>
+</div>
+
+
+
+<div class="modal fade" id="dlgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+	  
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+		
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="form-control-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="form-control-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-container"></div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+ 	
+</body>
+</html>	

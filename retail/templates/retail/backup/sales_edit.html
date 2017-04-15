@@ -1,0 +1,50 @@
+{% extends 'retail/base.html' %}
+{% block pagetitle %}
+{{view.title}}
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+
+<form action="{{action}}" method="POST">
+{% csrf_token %}
+{{ form.as_ul }}
+
+<a href="{% url 'sales_det_new' pk=sales.id %}">add sales detail</a>
+
+ <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Qty</th>
+                  <th>Date</th>
+                  <th>GST Amt</th>
+                  <th>Amt</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+				<tr>
+				{% for salesdet in view.SalesDets %}
+					<td>{{sales.seq}}</td>
+					<td>{{sales.qty}}</td>
+					<td>{{sales.gst_amt}}</td>
+					<td>{{sales.det_amt}}</td>
+				{% endfor %}
+				</tr>
+		      </tbody>
+            </table>
+          </div>
+<!-- <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button> -->
+<a class="btn btn-primary btn-md" href="{% url 'sales_list' %}">Cancel</a>
+<button type="submit" class="btn btn-primary" >Save</button>
+</div>
+</form>
+  
+{% endblock %}

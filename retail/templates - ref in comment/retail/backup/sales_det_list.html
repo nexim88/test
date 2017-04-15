@@ -1,0 +1,40 @@
+{% load static from staticfiles %}
+<html>
+<head>
+
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+<script src="{% static 'css/jquery.min.js' %}"></script>
+<script src="{% static 'css/jquery-ui.min.js' %}"></script>
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+
+
+
+</head>
+
+<body>
+{{view.title}}
+<ul>
+{% for sales_det in view.SalesDets %}
+<li>{{ sales_det.seq }} <a href="{% url 'sales_det_edit' pk=sales_det.id %}">edit</a> <a href="{% url 'sales_det_delete' pk=sales_det.id %}">delete</a></li>
+{% endfor %}
+</ul>
+
+<ul>
+{% for gst in view.GSTDets %}
+<li>{{ gst.code }} </li>
+{% endfor %}
+</ul>
+
+<ul>
+{% for inventory in view.InventoryDets %}
+<li>{{ inventory.code }} </li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'sales_det_new' %}">add sales detail</a>
+<a href="{% url 'index' %}">Home</a>
+
+<script src="{% static 'css/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

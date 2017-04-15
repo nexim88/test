@@ -1,0 +1,69 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+{% comment "Inventory Edit" %}
+
+{% endcomment %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+	<form action="" method="POST" class = "form" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="form-group">
+			{% url 'inventory_view' inventory_id as inventory_view_path %}
+			{% url 'inventory_edit' inventory_id as inventory_edit_path %}
+			{% url 'inventory_new' as inventory_new_path %}
+
+			{{inventory_view_path}}
+			{{inventory_edit_path}}
+			{{inventory_new_path}}
+			{{request.path}}
+			
+			<a class="btn btn-primary btn-sm fa fa-list" href="{% url 'inventory_list' %}"></a>
+			
+			{% if inventory_view_path != request.path %}
+				<button type="submit" class="btn btn-sm btn-primary fa fa-save" ></button>
+				
+				{% if inventory_id %}
+					<a class="btn btn-primary btn-sm fa fa-times" href="{% url 'inventory_view' inventory_id %}"></a>
+				{% else %}
+					<a class="btn btn-primary btn-sm fa fa-times" href="{% url 'inventory_list' %}"></a>
+				{% endif %}
+				
+			{% else %}
+				<a class="btn btn-primary btn-sm fa fa-edit" href="{% url 'inventory_edit' inventory_id %}"></a>
+			{% endif %}
+
+		</div>
+
+<div>
+{{form.errors}}
+</div>
+	<div class="form-group">
+		
+		{% for field in form.visible_fields %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+		{% if title == 'View Inventory' %}
+		{{ field|attr:'readonly=readonly'|add_class:'form-control' }}
+		{% else %}
+        {{ field|add_class:'form-control' }}
+		{% endif %}
+        {% for error in field.errors %}
+          <span class="help-block">>{{ error }}<</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+	</form>
+	
+
+{% endblock %}
+{% block scripts %}
+<script>
+var $j = jQuery.noConflict();
+$j(".datepicker").datepicker();
+  </script>{% endblock %}

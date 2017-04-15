@@ -1,0 +1,89 @@
+{% extends 'retail/base.html' %}
+{% load widget_tweaks %}
+
+{% comment "Sales Edit" %}
+{% if form.description.value %}
+			{{ form.description }}		
+			{% endif %}
+
+			{{ form.si_no.label }}		
+			{{ form.si_no }}		
+			{{ form.sales_date.label }}		
+			{{ form.sales_date }}<br />		
+
+			{{ form.description.label }}<br />
+			{{ form.description|attr:"autofocus"|add_error_class:"error_border" }}
+
+			</div><br />
+		<div class="form-group">
+			{{ form.customer.label }}<br />
+			{{ form.customer }}		{{cust_fullname}}
+		</div>	
+<!-- concat -->
+		<span class="help-block">>{{ error|add:error }}<</span>
+
+		{% endcomment %}
+
+{% block pagetitle %}
+	{{title}}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-primary btn-md" href="{% url 'sales_new' %}">New Sales</a>
+
+	<form action="{{action}}" method="POST" class = "form">
+		{% csrf_token %}
+		<div class="form-group">
+			<a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'sales_edit' sales_id %}"></a>
+			<a class="btn btn-primary btn-sm glyphicon glyphicon-ban-circle" href="{% url 'sales_list' %}"></a>
+			<a class="btn btn-primary btn-sm glyphicon glyphicon-remove" href="{% url 'sales_delete' pk=sales_id %}"></a>		
+		</div>
+		<br />
+	{{form.errors}}
+	<br />
+	<div class="form-group">
+		
+		{% for field in form.visible_fields %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field|attr:"readonly=readonly"|add_class:'form-control' }}
+        {% for error in field.errors %}
+          <span class="help-block">>{{ error }}<</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+	</form>
+	
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			  <th>#</th>
+			  <th>Qty</th>
+			  <th>GST Amt</th>
+			  <th>Amt</th>
+			  <th>Edit</th>
+			  <th>Delete</th>
+			</tr>
+		</thead>
+              <tbody>
+				{% for sales_det in sales_det_list %}
+                <tr>
+                  <td>{{ sales_det.seq }}</td>
+				  <td>{{ sales_det.qty }}</td>
+				  <td>{{ sales_det.gst_amt }}</td>
+				  <td>{{ sales_det.det_amt }}</td>
+				  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-edit" href="{% url 'sales_det_edit' pk=sales_det.id %}"></a></td>
+				  <td><a class="btn btn-primary btn-sm glyphicon glyphicon-remove" href="{% url 'sales_det_delete' pk=sales_det.id %}"></a></td>
+                </tr>
+				{% endfor %}
+
+              </tbody>
+	</table>
+{% endblock %}
+{% block scripts %}
+<script>
+var $j = jQuery.noConflict();
+$j(".datepicker").datepicker();
+  </script>{% endblock %}
