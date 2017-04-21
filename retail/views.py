@@ -885,18 +885,18 @@ def inventory_edit(request, pk=None):
 
 	if request.method == 'POST':
 
-		# if pk is not None:
-			# print('edit inv')
-			# inventory=Inventory.objects.get(pk=pk)
+		if pk is not None:
+			print('edit inv')
+			inventory=Inventory.objects.get(pk=pk)
 
-		# else:
-			# print('new inv')
+		else:
+			print('new inv')
 			
-			# inventory=Inventory()
-			# print('new inv2')
+			inventory=Inventory()
+			print('new inv2')
 
 		#print(inventory.imgFile)	
-		form = InventoryForm(request.POST, request.FILES)
+		form = InventoryForm(request.POST, request.FILES, instance=inventory)
 		
 		if form.is_valid():
 			print('valid')
